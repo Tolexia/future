@@ -1,6 +1,6 @@
 import * as THREE from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import GUI from 'lil-gui'
+import gsap from 'gsap'
 import testVertexShader from './shaders/test/vertex.glsl'
 import testFragmentShader from './shaders/test/fragment.glsl'
 
@@ -9,6 +9,10 @@ import testFragmentShader from './shaders/test/fragment.glsl'
  */
 // Debug
 const gui = new GUI()
+
+const parameters = {
+    objectsDistance : 1 
+}
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
@@ -38,6 +42,7 @@ const material = new THREE.ShaderMaterial({
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
 
+
 /**
  * Sizes
  */
@@ -45,6 +50,45 @@ const sizes = {
     width: window.innerWidth,
     height: window.innerHeight
 }
+
+/**
+ * Scroll
+ */
+let scrollY = window.scrollY
+let currentSection = 0
+window.addEventListener('scroll', () =>
+{
+    scrollY = window.scrollY
+    const newSection = Math.round(scrollY / sizes.height)
+    if(newSection != currentSection)
+    {
+        currentSection = newSection
+
+        gsap.to(
+            sectionMeshes[currentSection].rotation,
+            {
+                duration: 1.5,
+                ease: 'power2.inOut',
+                x: '+=6',
+                y: '+=3',
+                z: '+=1.5'
+            }
+        )
+    }
+})
+
+/**
+ * Cursor
+ */
+const cursor = {}
+cursor.x = 0
+cursor.y = 0
+
+window.addEventListener('mousemove', (event) =>
+{
+    cursor.x = event.clientX / sizes.width - 0.5
+    cursor.y = event.clientY / sizes.height - 0.5
+})
 
 window.addEventListener('resize', () =>
 {
@@ -69,9 +113,6 @@ const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height, 0.1, 
 camera.position.set(0, - 0, 0.65)
 scene.add(camera)
 
-// Controls
-// const controls = new OrbitControls(camera, canvas)
-// controls.enableDamping = true
 
 /**
  * Renderer
@@ -95,6 +136,9 @@ const tick = () =>
     
     // Update material
     material.uniforms.uTime.value = elapsedTime
+
+    // Animate camera
+    camera.position.y = - scrollY / sizes.height * parameters.objectsDistance
 
     // Render
     renderer.render(scene, camera)
