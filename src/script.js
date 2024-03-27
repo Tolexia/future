@@ -52,16 +52,16 @@ const material2 = material1.clone()
 material2.fragmentShader = squareFragmentShader
 const mesh2 = new THREE.Mesh(geometry, material2)
 mesh2.scale.set(0.75,0.75,0.75)
-mesh2.position.set(0, -1, 0)
+mesh2.position.set(0, -1.25, 0)
 scene.add(mesh2)
 
 // Third
 const material3 = material1.clone()
 material3.fragmentShader = discFragmentShader
 const mesh3 = new THREE.Mesh(geometry, material3)
-mesh3.scale.set(0.45,0.45,0.45)
-// mesh3.rotateY(-Math.PI/8)
-mesh3.position.set(-0.05, -2.05, 0)
+// mesh3.scale.set(4.5,2.5,0)
+mesh3.rotateX(-Math.PI/4)
+mesh3.position.set(0, -2.85, -0.5)
 scene.add(mesh3)
 
 
@@ -78,8 +78,8 @@ const animations = {
     2: {
         duration: 1.5,
         ease: 'power2.inOut',
-        x: '+=6',
-        y: '+=6',
+        x: '+=0',
+        y: '+=0',
         z: '+=0'
     },
 }

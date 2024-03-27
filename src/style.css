@@ -28,7 +28,7 @@ body
 {
     display: flex;
     align-items: center;
-    height: 100vh;
+    height: 150vh;
     position: relative;
     font-family: 'Cabin', sans-serif;
     color: #ffeded;
@@ -37,8 +37,9 @@ body
     padding-left: 10%;
     padding-right: 10%;
 }
-
-
+.section:first-child{
+    height: 100vh;
+}
 h1, h2{
     color: rgba(255, 255, 255, 0.478);
     font-size: calc(100lvw / 6);

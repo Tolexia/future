@@ -129,7 +129,7 @@ void main()
     // float strength = step(0.5, distance(vUv, vec2(0.5)) + 0.25); // 33
     // float strength = abs(distance(vUv, vec2(0.5)) - 0.25); // 34
     // float strength = step(0.01, abs(distance(vUv, vec2(0.5)) - 0.25)); // 35
-    float strength = 1.0 - step(0.07, abs(distance(vUv, vec2(0.5)) - 0.25)); // 36 : White Disc => Pépite
+    float strength = 1.0 - step(0.02, abs(distance(vUv, vec2(0.5)) - 0.25)); // 36 : White Disc => Pépite
 
     // vec2 wavedUv = vec2(
     //     vUv.x + tan(vUv.y * 30.0) * 0.015,           // SO NICE
