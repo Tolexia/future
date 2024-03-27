@@ -50,3 +50,19 @@ h1, h2{
     font-family: integral;
     z-index: 2;
 }
+
+#now.animated {
+    animation-name: rotateX;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-in-out;
+    animation-fill-mode: forwards;
+}
+
+@keyframes rotateX {
+    from{
+        transform: rotateX(0deg);
+    }
+    to{
+        transform: rotateX(720deg);
+    }
+}

@@ -1,10 +1,16 @@
 import * as THREE from 'three'
 import GUI from 'lil-gui'
+
 import gsap from 'gsap'
+import { MotionPathPlugin } from "gsap/MotionPathPlugin";
+import { TextPlugin } from "gsap/TextPlugin";
+
 import vertexShader from './shaders/vertex.glsl'
 import mainFragmentShader from './shaders/fragment.glsl'
 import squareFragmentShader from './shaders/fragment_square.glsl'
 import discFragmentShader from './shaders/fragment_disc.glsl'
+
+gsap.registerPlugin(MotionPathPlugin,TextPlugin);
 
 /**
  * Base
@@ -57,31 +63,64 @@ scene.add(mesh2)
 
 // Third
 const material3 = material1.clone()
-material3.fragmentShader = discFragmentShader
+// material3.fragmentShader = discFragmentShader
+material3.fragmentShader = squareFragmentShader
 const mesh3 = new THREE.Mesh(geometry, material3)
-// mesh3.scale.set(4.5,2.5,0)
-mesh3.rotateX(-Math.PI/4)
-mesh3.position.set(0, -2.85, -0.5)
+mesh3.scale.set(0.5,0.5,0.5)
+mesh3.rotateX(-Math.PI/2)
+mesh3.rotateY(Math.PI/6)
+mesh3.position.set(-1, -2.85, -0.5)
 scene.add(mesh3)
 
+const nowSection = document.getElementById('now')
 
-const sectionMeshes = [mesh1,mesh2,mesh3] 
+const sectionMeshes = [ mesh1, mesh2, mesh3 ] 
 const animations = {
     0 : null,
-    1: {
-        duration: 1.5,
-        ease: 'power2.inOut',
-        x: '+=3',
-        y: '+=3',
-        z: '+=0'
-    },
-    2: {
-        duration: 1.5,
-        ease: 'power2.inOut',
-        x: '+=0',
-        y: '+=0',
-        z: '+=0'
-    },
+    1: () => gsap.to(
+        mesh2.rotation,
+        {
+            duration: 1.5,
+            ease: 'power2.inOut',
+            x: '+=3',
+            y: '+=3',
+            z: '+=0'
+        }  
+    ) ,
+    2:() => {
+        gsap.to(
+            mesh3.rotation,
+            {
+                duration: 1.5,
+                ease: 'power2.inOut',
+                x: '+=0',
+                y: '+=0',
+                z: '+=6'
+            }
+        )
+        gsap.to(
+            mesh3.position,
+            {
+                duration: 1.5,
+                ease: 'power2.inOut',
+                x: mesh3.position.x == 1 ? -1 : 1,
+                y: '+=0',
+                z: '+=0'
+            }
+        )
+        // if(nowSection && nowSection.innerText == "NOW")
+        // {
+        //     gsap.to(nowSection, {
+        //         duration: 1,
+        //         text: {
+        //           value: "PAST",
+        //           newClass: "animated",
+        //           delimiter: " ",
+        //         },
+        //       });
+        // }
+    } 
+ ,
 }
 
 /**
@@ -103,15 +142,14 @@ window.addEventListener('scroll', () =>
     const newSection = Math.round(scrollY / sizes.height)
     if(newSection != currentSection)
     {
+        console.log(currentSection)
+        console.log(newSection)
         currentSection = newSection
 
         if(!animations[currentSection])
             return;
 
-        gsap.to(
-            sectionMeshes[currentSection].rotation,
-            animations[currentSection]
-        )
+        animations[currentSection]()
     }
 })
 
