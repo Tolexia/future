@@ -8,9 +8,51 @@ import { TextPlugin } from "gsap/TextPlugin";
 import vertexShader from './shaders/vertex.glsl'
 import mainFragmentShader from './shaders/fragment.glsl'
 import squareFragmentShader from './shaders/fragment_square.glsl'
-import discFragmentShader from './shaders/fragment_disc.glsl'
+import textFragmentShader from './shaders/fragment_text.glsl'
+
+import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
 
 gsap.registerPlugin(MotionPathPlugin,TextPlugin);
+
+/**
+ * Fonts
+ */
+const fontLoader = new FontLoader()
+
+fontLoader.load(
+    './Integral_Bold_Regular.json',
+    (font) =>
+    {
+        const textGeometry = new TextGeometry(
+            'NOW',
+            {
+                font: font,
+                size: 0.1,
+                height: 0.2,
+                curveSegments: 12,
+                bevelEnabled: true,
+                bevelThickness: 0,
+                bevelSize: 0.002,
+                bevelOffset: 0,
+                bevelSegments: 5
+            }
+        )
+        const textMaterial = new THREE.ShaderMaterial({
+            vertexShader: vertexShader,
+            fragmentShader: textFragmentShader,
+            side: THREE.DoubleSide,
+            transparent: true,
+            uniforms:
+            {
+                uTime: { value: 0 },
+            }
+        })
+        const text = new THREE.Mesh(textGeometry, textMaterial)
+        text.position.set(-0.15, -2, 0)
+        scene.add(text)
+    }
+)
 
 /**
  * Base
@@ -58,7 +100,7 @@ const material2 = material1.clone()
 material2.fragmentShader = squareFragmentShader
 const mesh2 = new THREE.Mesh(geometry, material2)
 mesh2.scale.set(0.75,0.75,0.75)
-mesh2.position.set(0, -1.25, 0)
+mesh2.position.set(0, -1, 0)
 scene.add(mesh2)
 
 // Third
@@ -66,10 +108,10 @@ const material3 = material1.clone()
 // material3.fragmentShader = discFragmentShader
 material3.fragmentShader = squareFragmentShader
 const mesh3 = new THREE.Mesh(geometry, material3)
-mesh3.scale.set(0.5,0.5,0.5)
+mesh3.scale.set(0.25,0.25,0.25)
 mesh3.rotateX(-Math.PI/2)
 mesh3.rotateY(Math.PI/6)
-mesh3.position.set(-1, -2.85, -0.5)
+mesh3.position.set(-1, -2, -0.5)
 scene.add(mesh3)
 
 const nowSection = document.getElementById('now')
@@ -139,7 +181,7 @@ let currentSection = 0
 window.addEventListener('scroll', () =>
 {
     scrollY = window.scrollY
-    const newSection = Math.round(scrollY / sizes.height)
+    const newSection = Math.floor(scrollY / sizes.height )
     if(newSection != currentSection)
     {
         console.log(currentSection)
