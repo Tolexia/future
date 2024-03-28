@@ -155,7 +155,7 @@ void main()
     // );
     // float strength = 1.0 - step(0.01, abs(distance(wavedUv, vec2(0.5)) - 0.25  + vTime / 150.0));
 
-    // float angle = atan(vUv.x, vUv.y); // 40
+    float angle = atan(vUv.x, vUv.y) + sin(vTime + 2.0); // 40
 
     // float angle = atan(vUv.x - 0.5, vUv.y - 0.5); // 41
 
@@ -167,20 +167,20 @@ void main()
  
     // float angle = sin(atan(vUv.x - 0.5, vUv.y - 0.5) / (PI * 2.0) * 5000.0); // Not in the course but interesting (psyche)
 
-    // float strength = angle;
+    float strength = angle;
 
     // 45
     //float angle = atan(vUv.x - 0.5, vUv.y - 0.5) / (PI * 2.0) + 0.5;
     //float radius = 0.25 + sin(angle * 100.0) * 0.02;
     //float strength = 1.0 - step(0.01, abs(distance(vUv, vec2(0.5)) - radius));
 
-    // float strength = cnoise(vUv * 10.0); // 46
+    // float strength = cnoise(vUv * vTime); // 46
     // float strength = step(0.01, cnoise(vUv * 10.0)); // 47
     // float strength = 1.0 - abs(cnoise(vUv * 10.0)) ; // 48
     // float strength = sin(cnoise(vUv * 10.0) * 20.0); // 49
     // float strength = step(0.9,sin(cnoise(vUv * 10.0) * 20.0)); // 50
 
-    float strength = 1.0 - sin(cnoise(vUv * vTime) * 20.0);
+    // float strength = 1.0 - sin(cnoise(vUv * vTime) * 20.0);
     
     vec4 blackColor = vec4(0.0);
     vec4 uvColor = vec4(1.0, vUv, 1.0);

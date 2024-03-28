@@ -41,7 +41,7 @@ body
     height: 100vh;
 } */
 h1, h2{
-    color: rgba(255, 255, 255, 0.478);
+    color: rgba(255, 255, 255, 0.708);
     font-size: calc(100lvw / 6);
     position: absolute;
     top: 50%;

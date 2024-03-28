@@ -24,11 +24,29 @@ fontLoader.load(
     './Integral_Bold_Regular.json',
     (font) =>
     {
+        let size = 0.25;
+        let posX = -0.45;
+        if(window.innerWidth < 1050)
+        {
+            size = 0.15;
+            posX = -0.27 ;
+        }
+        if(window.innerWidth < 800)
+        {
+            size = 0.125;
+            posX = -0.22 ;
+        }
+        if(window.innerWidth < 500)
+        {
+            size = 0.1;
+            posX = -0.185 ;
+        }
+
         const textGeometry = new TextGeometry(
             'NOW',
             {
                 font: font,
-                size: 0.25,
+                size: size,
                 height: 0.01,
                 curveSegments: 12,
                 bevelEnabled: false,
@@ -49,7 +67,7 @@ fontLoader.load(
             }
         })
         const text = new THREE.Mesh(textGeometry, textMaterial)
-        text.position.set(-0.5, -2, 0)
+        text.position.set(posX, -2, 0)
         scene.add(text)
     }
 )
@@ -96,11 +114,31 @@ const mesh1 = new THREE.Mesh(geometry, material1)
 scene.add(mesh1)
 
 // Second
+let size2 = 0.75 ;
+if(window.innerWidth < 1050)
+{
+    size2 = 0.5 ;
+}
+if(window.innerWidth < 500)
+{
+    size2 = 0.4 ;
+}
+if(window.innerWidth < 350)
+{
+    size2 = 0.3 ;
+}
+
+let posYMesh2 = -1;
+if(window.innerWidth < 1280 && window.innerWidth > window.innerHeight)
+{
+    posYMesh2 -= 0.03 ;
+}
+
 const material2 = material1.clone()
 material2.fragmentShader = squareFragmentShader
 const mesh2 = new THREE.Mesh(geometry, material2)
-mesh2.scale.set(0.75,0.75,0.75)
-mesh2.position.set(0, -1, 0)
+mesh2.scale.set(size2,size2,size2)
+mesh2.position.set(0, posYMesh2, 0)
 scene.add(mesh2)
 
 // Third
@@ -108,10 +146,21 @@ const material3 = material1.clone()
 // material3.fragmentShader = discFragmentShader
 material3.fragmentShader = squareFragmentShader
 const mesh3 = new THREE.Mesh(geometry, material3)
-mesh3.scale.set(0.25,0.25,0.25)
+mesh3.scale.set(0.12,0.12,0.12)
 mesh3.rotateX(-Math.PI/2)
 mesh3.rotateY(Math.PI/6)
-mesh3.position.set(-1, -2, -0.5)
+
+let posXMesh3 = window.innerWidth < 1050 ? -0.28 : -0.45;
+if(window.innerWidth < 800)
+{
+    posXMesh3 =  -0.22;
+}
+if(window.innerWidth < 500)
+{
+    posXMesh3 =  -0.19;
+}
+
+mesh3.position.set(posXMesh3, -2, 0)
 scene.add(mesh3)
 
 const nowSection = document.getElementById('now')
@@ -124,8 +173,8 @@ const animations = {
         {
             duration: 1.5,
             ease: 'power2.inOut',
-            x: '+=3',
-            y: '+=3',
+            x: '+='+Math.PI,
+            y: '+='+Math.PI,
             z: '+=0'
         }  
     ) ,
@@ -140,16 +189,16 @@ const animations = {
                 z: '+=6'
             }
         )
-        gsap.to(
-            mesh3.position,
-            {
-                duration: 1.5,
-                ease: 'power2.inOut',
-                x: mesh3.position.x == 1 ? -1 : 1,
-                y: '+=0',
-                z: '+=0'
-            }
-        )
+        // gsap.to(
+        //     mesh3.position,
+        //     {
+        //         duration: 1.5,
+        //         ease: 'power2.inOut',
+        //         x: mesh3.position.x == 1 ? -1 : 1,
+        //         y: '+=0',
+        //         z: '+=0'
+        //     }
+        // )
         // if(nowSection && nowSection.innerText == "NOW")
         // {
         //     gsap.to(nowSection, {
