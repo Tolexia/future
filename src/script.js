@@ -19,7 +19,7 @@ gsap.registerPlugin(MotionPathPlugin,TextPlugin);
  * Fonts
  */
 const fontLoader = new FontLoader()
-
+let textMaterial;
 fontLoader.load(
     './Integral_Bold_Regular.json',
     (font) =>
@@ -28,17 +28,17 @@ fontLoader.load(
             'NOW',
             {
                 font: font,
-                size: 0.1,
-                height: 0.2,
+                size: 0.25,
+                height: 0.01,
                 curveSegments: 12,
-                bevelEnabled: true,
+                bevelEnabled: false,
                 bevelThickness: 0,
-                bevelSize: 0.002,
+                bevelSize: 0,
                 bevelOffset: 0,
                 bevelSegments: 5
             }
         )
-        const textMaterial = new THREE.ShaderMaterial({
+        textMaterial = new THREE.ShaderMaterial({
             vertexShader: vertexShader,
             fragmentShader: textFragmentShader,
             side: THREE.DoubleSide,
@@ -49,7 +49,7 @@ fontLoader.load(
             }
         })
         const text = new THREE.Mesh(textGeometry, textMaterial)
-        text.position.set(-0.15, -2, 0)
+        text.position.set(-0.5, -2, 0)
         scene.add(text)
     }
 )
@@ -285,6 +285,8 @@ const tick = () =>
 
     // Update materials
     material1.uniforms.uTime.value = animation_value
+    if(textMaterial)
+        textMaterial.uniforms.uTime.value = elapsedTime
 
     // mesh3.rotateY(-Math.PI/8 / 190)
     
