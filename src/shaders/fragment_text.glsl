@@ -1,13 +1,18 @@
-
 varying vec2 vUv;
 varying float vTime;
 
 vec3 firePalette(float i) {
-    float T = 1400. + 1300.*i; 
-    vec3 L = vec3(7.4, 5.6, 4.4); 
-    L = pow(L,vec3(5.0)) * (exp(1.43876719683e5/(T*L))-1.0);
+
+    // float T = 1400. + 1300.*i; 
+    // vec3 L = vec3(7.4, 5.6, 4.4); 
+    // L = pow(L,vec3(5.0)) * (exp(1.43876719683e5/(T*L))-1.0);
+
+    float T = 7500. + 35300.*i; 
+    vec3 L = vec3(1.0, vUv) * 2.5; 
+    L = L * ( exp(1.48876719683e5/(T*L)) );
+
     return 1.0-exp(-5e8/L); 
-}    
+}   
 
 vec3 hash33(vec3 p) { 
     float n = sin(dot(p, vec3(7, 157, 113)));    
@@ -51,8 +56,9 @@ void main()
 {
     float PI = 3.1415926535897932384626433832795;
 
+    // Fire 1 
 	vec3 rd = normalize(vec3(vUv.x, vUv.y, PI / 8.0));
-	float c = noiseLayers(rd*4.0); 
+	float c = noiseLayers(rd*15.0); 
 	vec3 col = firePalette(c);
 	gl_FragColor = vec4(sqrt(col), 1.0);  
 

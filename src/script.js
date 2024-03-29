@@ -64,6 +64,7 @@ fontLoader.load(
             uniforms:
             {
                 uTime: { value: 0 },
+                resolution: { value: new THREE.Vector2(sizes.width, sizes.height) },
             }
         })
         const text = new THREE.Mesh(textGeometry, textMaterial)
