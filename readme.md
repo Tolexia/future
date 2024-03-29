@@ -1,5 +1,7 @@
 # Three.js Journey
 
+Having fun with Fragment Shaders
+
 ## Setup
 Download [Node.js](https://nodejs.org/en/download/).
 Run this followed commands:
