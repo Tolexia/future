@@ -25,7 +25,7 @@ fontLoader.load(
     (font) =>
     {
         let size = 0.25;
-        let posX = -0.45;
+        let posX = -0.42;
         if(window.innerWidth < 1050)
         {
             size = 0.15;
@@ -38,8 +38,8 @@ fontLoader.load(
         }
         if(window.innerWidth < 500)
         {
-            size = 0.1;
-            posX = -0.185 ;
+            size = 0.12;
+            posX = -0.2 ;
         }
 
         const textGeometry = new TextGeometry(
@@ -145,21 +145,22 @@ scene.add(mesh2)
 
 // Third
 const material3 = material1.clone()
+const size3 = window.innerWidth < 1000 ? 0.08 : 0.12
 // material3.fragmentShader = discFragmentShader
 material3.fragmentShader = squareFragmentShader
 const mesh3 = new THREE.Mesh(geometry, material3)
-mesh3.scale.set(0.12,0.12,0.12)
+mesh3.scale.set(size3,size3,size3)
 mesh3.rotateX(-Math.PI/2)
 mesh3.rotateY(Math.PI/6)
 
-let posXMesh3 = window.innerWidth < 1050 ? -0.28 : -0.45;
+let posXMesh3 = window.innerWidth < 1050 ? -0.28 : -0.42;
 if(window.innerWidth < 800)
 {
     posXMesh3 =  -0.22;
 }
 if(window.innerWidth < 500)
 {
-    posXMesh3 =  -0.19;
+    posXMesh3 =  -0.2 ;
 }
 
 mesh3.position.set(posXMesh3, -2, 0)
