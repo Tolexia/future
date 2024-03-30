@@ -1,5 +1,6 @@
 varying vec2 vUv;
 varying float vTime;
+varying float vPaletteMultiplier;
 
 vec3 firePalette(float i) {
 
@@ -8,7 +9,7 @@ vec3 firePalette(float i) {
     // L = pow(L,vec3(5.0)) * (exp(1.43876719683e5/(T*L))-1.0);
 
     float T = 7500. + 35300.*i; 
-    vec3 L = vec3(1.0, vUv) * 2.5; 
+    vec3 L = vec3(1.0, vUv) * vPaletteMultiplier; 
     L = L * ( exp(1.48876719683e5/(T*L)) );
 
     return 1.0-exp(-5e8/L); 

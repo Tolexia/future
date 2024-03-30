@@ -64,6 +64,7 @@ fontLoader.load(
             uniforms:
             {
                 uTime: { value: 0 },
+                uPaletteMultiplier: { value: sizes.width < 1000 ? 5 : 3.5 },
                 resolution: { value: new THREE.Vector2(sizes.width, sizes.height) },
             }
         })
@@ -77,7 +78,7 @@ fontLoader.load(
  * Base
  */
 // Debug
-const gui = new GUI()
+// const gui = new GUI()
 
 const parameters = {
     objectsDistance : 1 

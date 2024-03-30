@@ -28,7 +28,7 @@ body
 {
     display: flex;
     align-items: center;
-    height: 100vh;
+    height: 100dvh;
     position: relative;
     font-family: 'Cabin', sans-serif;
     color: #ffeded;
