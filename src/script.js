@@ -39,7 +39,7 @@ fontLoader.load(
         if(window.innerWidth < 500)
         {
             size = 0.12;
-            posX = -0.2 ;
+            posX = -0.215 ;
         }
 
         const textGeometry = new TextGeometry(
@@ -160,7 +160,7 @@ if(window.innerWidth < 800)
 }
 if(window.innerWidth < 500)
 {
-    posXMesh3 =  -0.2 ;
+    posXMesh3 =  -0.215 ;
 }
 
 mesh3.position.set(posXMesh3, -2, 0)
@@ -271,8 +271,8 @@ window.addEventListener('resize', () =>
     camera.updateProjectionMatrix()
 
     // Update renderer
-    // renderer.setSize(sizes.width, sizes.height)
-    // renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    renderer.setSize(sizes.width, sizes.height)
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 })
 
 /**
