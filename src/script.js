@@ -174,11 +174,11 @@ const animations = {
     1: () => gsap.to(
         mesh2.rotation,
         {
-            duration: 1.5,
+            duration: 1,
             ease: 'power2.inOut',
-            x: '+='+Math.PI,
-            y: '+='+Math.PI,
-            z: '+=0'
+            // x: '+='+Math.PI,
+            // y: '+='+Math.PI,
+            z: '+='+Math.PI,
         }  
     ) ,
     2:() => {
@@ -229,22 +229,61 @@ const sizes = {
  * Scroll
  */
 let scrollY = window.scrollY
-let currentSection = 0
+
+// Update scrollY for camera position
 window.addEventListener('scroll', () =>
 {
     scrollY = window.scrollY
-    const newSection = Math.floor(scrollY / sizes.height )
-    if(newSection != currentSection)
-    {
-        console.log(currentSection)
-        console.log(newSection)
-        currentSection = newSection
+}, { passive: true })
 
-        if(!animations[currentSection])
-            return;
+/**
+ * Section detection using Intersection Observer
+ */
+const sections = document.querySelectorAll('.section')
+let currentSection = 0
 
-        animations[currentSection]()
+// Create a map for O(1) index lookup
+const sectionIndexMap = new Map()
+sections.forEach((section, index) => {
+    sectionIndexMap.set(section, index)
+})
+
+// Intersection Observer configuration
+const observerOptions = {
+    root: null, // viewport
+    rootMargin: '0px',
+    threshold: 0.5 // Trigger when section is 50% visible
+}
+
+const sectionObserver = new IntersectionObserver((entries) => {
+    // Find the most visible section
+    let mostVisibleEntry = null
+    let maxRatio = 0
+    
+    entries.forEach((entry) => {
+        if (entry.isIntersecting && entry.intersectionRatio > maxRatio) {
+            maxRatio = entry.intersectionRatio
+            mostVisibleEntry = entry
+        }
+    })
+    
+    if (mostVisibleEntry) {
+        const sectionIndex = sectionIndexMap.get(mostVisibleEntry.target)
+        
+        // Only trigger animation if section changed
+        if (sectionIndex !== currentSection && sectionIndex >= 0) {
+            currentSection = sectionIndex
+            
+            if (animations[currentSection]) {
+                animations[currentSection]()
+            }
+        }
     }
+}, observerOptions)
+
+// Observe all sections
+sections.forEach((section) => {
+    sectionObserver.observe(section)
 })
 
 /**
